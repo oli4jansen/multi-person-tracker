@@ -16,10 +16,10 @@ def video_to_images(vid_file, img_folder=None, return_info=False):
                '-f', 'image2',
                '-v', 'error',
                f'{img_folder}/%06d.png']
-    print(f'Running \"{" ".join(command)}\"')
+    # print(f'Running \"{" ".join(command)}\"')
     subprocess.call(command)
 
-    print(f'Images saved to \"{img_folder}\"')
+    # print(f'Images saved to \"{img_folder}\"')
 
     img_shape = cv2.imread(osp.join(img_folder, '000001.png')).shape
 
@@ -37,7 +37,7 @@ def images_to_video(img_folder, output_vid_file):
         '-level', '3.0', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-an', '-v', 'error', output_vid_file,
     ]
 
-    print(f'Running \"{" ".join(command)}\"')
+    # print(f'Running \"{" ".join(command)}\"')
     subprocess.call(command)
 
 

@@ -5,7 +5,6 @@ import torch
 import shutil
 import numpy as np
 import os.path as osp
-from tqdm import tqdm
 from torch.utils.data import DataLoader
 from torchvision.models.detection import keypointrcnn_resnet50_fpn
 from yolov3.yolo import YOLOv3
@@ -69,10 +68,10 @@ class MPT():
         # initialize tracker
         self.tracker = Sort()
 
-        start = time.time()
-        print('Running Multi-Person-Tracker')
+        # start = time.time()
+        # print('Running Multi-Person-Tracker')
         trackers = []
-        for batch in tqdm(dataloader):
+        for batch in dataloader:
             batch = batch.to(self.device)
 
             predictions = self.detector(batch)
@@ -90,9 +89,9 @@ class MPT():
                     track_bbs_ids = np.empty((0, 5))
                 trackers.append(track_bbs_ids)
 
-        runtime = time.time() - start
-        fps = len(dataloader.dataset) / runtime
-        print(f'Finished. Detection + Tracking FPS {fps:.2f}')
+        # runtime = time.time() - start
+        # fps = len(dataloader.dataset) / runtime
+        # print(f'Finished. Detection + Tracking FPS {fps:.2f}')
         return trackers
 
     def prepare_output_tracks(self, trackers):
@@ -136,7 +135,7 @@ class MPT():
         :param trackers (ndarray): tracklets of shape Nx5 [x1,y1,x2,y2,track_id]
         :return: None
         '''
-        print('Displaying results..')
+        # print('Displaying results..')
 
         save = True if output_file else False
         tmp_write_folder = osp.join('/tmp', f'{osp.basename(image_folder)}_mpt_results')
@@ -174,7 +173,7 @@ class MPT():
         cv2.destroyAllWindows()
 
         if save:
-            print(f'Saving output video to {output_file}')
+            # print(f'Saving output video to {output_file}')
             images_to_video(img_folder=tmp_write_folder, output_vid_file=output_file)
             shutil.rmtree(tmp_write_folder)
 
